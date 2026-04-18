@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ExpenseIQ Dashboard - Manage your expenses and track savings">
+  <title>Dashboard - ExpenseIQ</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+  <div id="feedback" class="feedback" role="alert" aria-live="polite" aria-atomic="true"></div>
+
+  <nav class="sidebar" role="navigation" aria-label="Main navigation">
+    <h2>💰 ExpenseIQ</h2>
+    <button onclick="show('home')" class="active" aria-label="View Dashboard">Dashboard</button>
+    <button onclick="show('add')" aria-label="Add new expense">Add</button>
+    <button onclick="show('analysis')" aria-label="AI Analysis and Insights">🤖 AI Analysis</button>
+    <button onclick="show('profile')" aria-label="Edit Profile">Profile</button>
+    <button onclick="show('saving')" aria-label="View Savings Analysis">Savings</button>
+    <button onclick="show('settings')" aria-label="Settings and API keys">⚙️ Settings</button>
+    <button onclick="logout()" class="logout-btn" aria-label="Logout from account">Logout</button>
+  </nav>
+
+  <main class="main" role="main">
+
+    <section id="home" class="card" aria-label="Dashboard section">
+      <h2>Dashboard</h2>
+      <h3 id="total" aria-live="polite">Total ₹0</h3>
+      <div style="position: relative; height: 300px;">
+        <canvas id="chart" role="img" aria-label="Expense chart by category"></canvas>
+      </div>
+    </section>
+
+    <section id="add" class="card hide" aria-label="Add expense section">
+      <h2>Add Expense</h2>
+      <form onsubmit="event.preventDefault(); add();">
+        <label for="name">Expense Name</label>
+        <input id="name" type="text" placeholder="Expense name (e.g., Groceries)" aria-label="Expense name" required>
+        
+        <label for="category">Category</label>
+        <select id="category" aria-label="Expense category">
+          <option value="">Select Category</option>
+        </select>
+        
+        <label for="amount">Amount (₹)</label>
+        <input id="amount" type="number" placeholder="Amount" step="0.01" min="0" aria-label="Expense amount" required>
+        
+        <button type="submit" aria-label="Add expense button">Add Expense</button>
+        <button type="button" class="secondary-btn" id="cancelBtn" onclick="cancelEdit()" style="display:none;" aria-label="Cancel editing">Cancel</button>
+      </form>
+      
+      <h3>Recent Expenses</h3>
+      <ul id="list" role="list" aria-label="List of expenses"></ul>
+    </section>
+
+    <section id="profile" class="card hide" aria-label="Profile section">
+      <h2>Profile</h2>
+      <form onsubmit="event.preventDefault(); saveProfile();">
+        <label for="income">Monthly Income (₹)</label>
+        <input id="income" type="number" placeholder="Enter your monthly income" step="0.01" min="0" aria-label="Monthly income" required>
+        <button type="submit" aria-label="Save income button">Save Income</button>
+      </form>
+    </section>
+
+    <section id="saving" class="card hide" aria-label="Savings analysis section">
+      <h2>Savings Analysis</h2>
+      <div id="saveText" role="region" aria-live="polite"></div>
+    </section>
+
+    <section id="analysis" class="card hide" aria-label="AI analysis section">
+      <h2>🤖 AI Expense Analysis & Insights</h2>
+      <p style="color: rgba(255,255,255,0.7); margin-bottom: 15px;">Get AI-powered insights about your spending patterns and personalized recommendations.</p>
+      <button onclick="analyzeWithAI()" class="analyze-btn" aria-label="Generate AI analysis">
+        🔬 Generate Analysis
+      </button>
+      <div id="aiInsights" style="margin-top: 20px;"></div>
+      <div id="spendingTrends" style="margin-top: 20px;"></div>
+    </section>
+
+    <section id="settings" class="card hide" aria-label="Settings section">
+      <h2>⚙️ Settings & API Configuration</h2>
+      <div class="settings-container">
+        <h3>AI Integration (Optional)</h3>
+        <p style="color: rgba(255,255,255,0.7); font-size: 13px; margin-bottom: 15px;">
+          For advanced AI analysis, you can provide your Hugging Face API key. The app works fine without it using local analysis.
+        </p>
+        
+        <label for="apiKey">Hugging Face API Key (Optional)</label>
+        <input 
+          id="apiKey" 
+          type="password" 
+          placeholder="hf_xxxxxxxxxxxxx" 
+          value=""
+          aria-label="Hugging Face API key"
+        >
+        <p style="font-size: 12px; color: rgba(255,255,255,0.5); margin: 5px 0;">
+          Get it free from: <a href="https://huggingface.co/settings/tokens" target="_blank" style="color: #6366f1;">huggingface.co/settings/tokens</a>
+        </p>
+        
+        <button onclick="saveAPIKey()" class="secondary-btn">Save API Key</button>
+        <button onclick="clearAPIKey()" class="secondary-btn delete-btn">Clear API Key</button>
+        
+        <h3 style="margin-top: 25px;">Data Export</h3>
+        <p style="color: rgba(255,255,255,0.7); font-size: 13px; margin-bottom: 15px;">
+          Export your expense data for backup or analysis in other tools.
+        </p>
+        <button onclick="exportData()" class="secondary-btn">📥 Download as JSON</button>
+        <button onclick="downloadCSV()" class="secondary-btn">📊 Download as CSV</button>
+        
+        <h3 style="margin-top: 25px;">Data Management</h3>
+        <button onclick="clearAllData()" class="secondary-btn delete-btn">🗑️ Clear All Data</button>
+      </div>
+    </section>
+
+  <script src="app.js"></script>
+</body>
+</html>

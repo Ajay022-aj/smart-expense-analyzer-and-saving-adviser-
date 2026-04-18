@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ExpenseIQ - Smart Expense Tracker Application">
+  <title>ExpenseIQ - Smart Expense Tracker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="center">
+  <div id="feedback" class="feedback" role="alert" aria-live="polite" aria-atomic="true"></div>
+  
+  <div class="card">
+    <h1>💰 ExpenseIQ</h1>
+    <p style="text-align: center; color: rgba(255,255,255,0.7); margin-bottom: 20px;">Smart expense tracking for better financial management</p>
+    <div class="auth-tabs" role="tablist">
+      <button id="loginTab" role="tab" aria-selected="true" aria-controls="login" onclick="showAuth('login')">Login</button>
+      <button id="signupTab" role="tab" aria-selected="false" aria-controls="signup" onclick="showAuth('signup')">Signup</button>
+    </div>
+    <div id="login" class="auth-section" role="tabpanel" aria-labelledby="loginTab">
+      <h2>🔐 Login</h2>
+      <form onsubmit="event.preventDefault(); login();">
+        <label for="username">Username</label>
+        <input id="username" type="text" placeholder="Enter your username" aria-label="Username" required>
+        <label for="password">Password</label>
+        <input id="password" type="password" placeholder="Enter your password" aria-label="Password" required>
+        <button type="submit">Login</button>
+      </form>
+    </div>
+    <div id="signup" class="auth-section hide" role="tabpanel" aria-labelledby="signupTab">
+      <h2>📝 Signup</h2>
+      <form onsubmit="event.preventDefault(); signup();">
+        <label for="newUser">Username</label>
+        <input id="newUser" type="text" placeholder="Create a username" aria-label="New Username" required>
+        <label for="newPass">Password</label>
+        <input id="newPass" type="password" placeholder="Create a password" aria-label="New Password" required>
+        <button type="submit">Signup</button>
+      </form>
+    </div>
+  </div>
+  <script src="auth.js"></script>
+  <script>
+    function showAuth(section) {
+      document.getElementById('login').classList.add('hide');
+      document.getElementById('signup').classList.add('hide');
+      document.getElementById(section).classList.remove('hide');
+      document.getElementById('loginTab').classList.remove('active');
+      document.getElementById('signupTab').classList.remove('active');
+      document.getElementById(section + 'Tab').classList.add('active');
+      
+      // Update tab roles for accessibility
+      document.getElementById('loginTab').setAttribute('aria-selected', section === 'login');
+      document.getElementById('signupTab').setAttribute('aria-selected', section === 'signup');
+      
+      // Focus on first input of the section
+      document.getElementById(section).querySelector('input').focus();
+    }
+    window.onload = function() { showAuth('login'); };
+  </script>
+</body>
+</html></content>
+<parameter name="filePath">c:\Users\hp\Desktop\hackethon\index.html
